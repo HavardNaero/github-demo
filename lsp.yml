@@ -1,0 +1,13 @@
+- hosts: "{{ variable_host | default('dev') }}"
+  gather_facts: yes
+  vars:
+    oh121: /u01/app/oracle/product/12.1.0/dbhome_1
+    oh122: /u01/app/oracle/product/12.2.0/dbhome_1
+    oh190: /u01/app/oracle/product/19.0.0/dbhome_1
+    oh193: /u01/app/oracle/product/19.3.0/dbhome_1
+  tasks:
+    - name: Status lspatches
+      action:  shell export ORACLE_HOME={{ oh193 }}; $ORACLE_HOME/OPatch/opatch lspatches
+      register: status_lspatches
+    - debug:
+        var: status_lspatches.stdout_lines
